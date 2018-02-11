@@ -44,10 +44,16 @@ UserRepository.prototype.findOneById = function (id) {
         id: id
     };
 
-    return this.db
+    result = this.db
         .get('users')
         .find(userData)
-        .value()
+        .value();
+
+    if(result == undefined) {
+        throw 'User object doesn\'t exist';
+    }
+
+    return result;
 };
 
 /**
@@ -55,7 +61,14 @@ UserRepository.prototype.findOneById = function (id) {
  * @param {User} user
  */
 UserRepository.prototype.update = function (user) {
+    var userData = {
+        id: id
+    };
 
+    return this.db
+        .get('users')
+        .set(userData)
+        .value()
 };
 
 /**

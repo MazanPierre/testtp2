@@ -1,0 +1,10 @@
+{
+  "users": [
+    {
+      "id": "d02eeb72-d2a3-4f14-a709-b65ed5e5bb9b",
+      "firstname": "John",
+      "lastname": "doe",
+      "birthday": "2001-01-10"
+    }
+  ]
+}
