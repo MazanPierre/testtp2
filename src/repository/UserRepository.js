@@ -26,7 +26,7 @@ UserRepository.prototype.create = function (user) {
         lastname: user.lastname,
         birthday: user.birthday
     };
-
+    
     this.db
         .get('users')
         .push(userData)
@@ -40,6 +40,14 @@ UserRepository.prototype.create = function (user) {
  */
 UserRepository.prototype.findOneById = function (id) {
 
+    var userData = {
+        id: id
+    };
+
+    return this.db
+        .get('users')
+        .find(userData)
+        .value()
 };
 
 /**
