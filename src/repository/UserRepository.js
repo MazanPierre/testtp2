@@ -60,15 +60,23 @@ UserRepository.prototype.findOneById = function (id) {
  *
  * @param {User} user
  */
-UserRepository.prototype.update = function (user) {
-    var userData = {
+UserRepository.prototype.update = function (id, user) {
+    var findUserData = {
         id: id
     };
 
-    return this.db
+    var assignUserData = {
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        birthday: user.birthday
+    };
+
+    this.db
         .get('users')
-        .set(userData)
-        .value()
+        .find(findUserData)
+        .assign(assignUserData)
+        .write()
 };
 
 /**

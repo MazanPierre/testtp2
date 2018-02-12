@@ -30,7 +30,7 @@ describe("UserRepository", function() {
         var mockDb = jasmine.createSpyObj('db', ['get', 'find', 'value']);
         mockDb.get.and.returnValue(mockDb);        
         mockDb.find.and.returnValue(mockDb);
-        mockDb.value.and.returnValue('test');
+        mockDb.value.and.returnValue('defined');
 
 
         var repository = new UserRepository(mockDb);

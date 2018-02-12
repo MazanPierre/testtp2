@@ -21,7 +21,7 @@ app
 
         var repository = new UserRepository(db);
         var user = repository.findOneById(id);
-
+        res.header("Access-Control-Allow-Origin", "*");
         res.send(user);
     })
 
@@ -42,12 +42,22 @@ app
 
     //mise à jour d'un utilisateur
     .put(function (req, res) {
+        var id = req.params.id;
+
+        var user = new User();
+        user.id = id;
+        user.firstname = req.body.firstname;
+        user.lastname = req.body.lastname;
+        user.birthday = req.body.birthday;
 
         /**
          * Implémenter le controlleur
          */
 
-        res.send('Not implemented');
+        var repository = new UserRepository(db);
+        result = repository.update(id, user);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send(user);
     })
 
     //suppression d'un utilisateur
