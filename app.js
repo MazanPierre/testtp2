@@ -55,18 +55,23 @@ app
          */
 
         var repository = new UserRepository(db);
-        result = repository.update(id, user);
+        repository.update(id, user);
         res.header("Access-Control-Allow-Origin", "*");
-        res.send(user);
+        res.send('');
     })
 
     //suppression d'un utilisateur
     .delete(function (req, res) {
+        var id = req.params.id;
+
         /**
          * Implémenter le controlleur
          */
 
-        res.send('Not implemented');
+        var repository = new UserRepository(db);
+        var user = repository.delete(id);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send('');
     });
 
 

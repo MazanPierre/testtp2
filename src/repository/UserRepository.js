@@ -40,6 +40,10 @@ UserRepository.prototype.create = function (user) {
  */
 UserRepository.prototype.findOneById = function (id) {
 
+    if(!id) {
+        throw 'id not defined';
+    }
+
     var userData = {
         id: id
     };
@@ -50,7 +54,7 @@ UserRepository.prototype.findOneById = function (id) {
         .value();
 
     if(result == undefined) {
-        throw 'User object doesn\'t exist';
+        throw 'User id not found';
     }
 
     return result;
@@ -61,6 +65,15 @@ UserRepository.prototype.findOneById = function (id) {
  * @param {User} user
  */
 UserRepository.prototype.update = function (id, user) {
+
+    if (!id || !user) {
+        throw 'id and/or user are not defined';
+    }
+
+    if (!user.id || !user.firstname || !user.lastname || !user.birthday) {
+        throw 'User object is missing information';
+    }
+
     var findUserData = {
         id: id
     };
@@ -72,11 +85,18 @@ UserRepository.prototype.update = function (id, user) {
         birthday: user.birthday
     };
 
-    this.db
+    var result = this.db
         .get('users')
         .find(findUserData)
+
+    if(result.value() == undefined) {
+        throw 'User id not found';
+    }
+
+    result
         .assign(assignUserData)
         .write()
+        
 };
 
 /**
@@ -85,6 +105,18 @@ UserRepository.prototype.update = function (id, user) {
  */
 UserRepository.prototype.delete = function (id) {
 
+    if (!id) {
+        throw 'id not defined';
+    }
+
+    var deleteUserData = {
+        id: id
+    };
+
+    this.db
+        .get('users')
+        .remove(deleteUserData)
+        .write()
 };
 
 
