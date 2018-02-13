@@ -4,6 +4,22 @@ var UserRepository = require('../../../src/repository/UserRepository');
 
 
 describe("UserRepository", function() {
+
+    describe("new UserRepository", function() {
+        it("should call db", function(){
+            var repository = new UserRepository("something");
+            expect(repository.db).toEqual("something");
+        });
+
+        it("should throw exception db is undefined", function(){
+            var f = function(){
+                new UserRepository();
+            };
+
+            expect(f).toThrow('db not defined')
+        });
+    });
+
     describe("create", function() {
         it("should call db.write", function(){
             var mockDb = jasmine.createSpyObj('db', ['get', 'push', 'write']);
@@ -64,12 +80,12 @@ describe("UserRepository", function() {
         });
 
         it("should throw exception find undefined id", function(){
-            const db = low(new FileSync('dbtest.json'));
+            var mockDb = jasmine.createSpyObj('db', ['get', 'find', 'value']);
+            mockDb.get.and.returnValue(mockDb);        
+            mockDb.find.and.returnValue(mockDb);
+            mockDb.value.and.returnValue('defined');
 
-            // Defaults
-            db.defaults({})
-
-            var repository = new UserRepository(db);
+            var repository = new UserRepository(mockDb);
             var f = function(){
                 repository.findOneById();
             };
@@ -78,12 +94,12 @@ describe("UserRepository", function() {
         });
 
         it("should throw exception find missing id", function(){
-            const db = low(new FileSync('dbtest.json'));
+            var mockDb = jasmine.createSpyObj('db', ['get', 'find', 'value']);
+            mockDb.get.and.returnValue(mockDb);        
+            mockDb.find.and.returnValue(mockDb);
+            mockDb.value.and.returnValue(undefined);
 
-            // Defaults
-            db.defaults({})
-
-            var repository = new UserRepository(db);
+            var repository = new UserRepository(mockDb);
             var f = function(){
                 repository.findOneById("coucou");
             };
@@ -138,12 +154,13 @@ describe("UserRepository", function() {
         });
 
         it("should throw exception user to update not find", function(){
-            const db = low(new FileSync('dbtest.json'));
+            var mockDb = jasmine.createSpyObj('db', ['get', 'find', 'value', 'assign', 'write']);
+            mockDb.get.and.returnValue(mockDb);        
+            mockDb.find.and.returnValue(mockDb);
+            mockDb.value.and.returnValue(undefined);
+            mockDb.assign.and.returnValue(mockDb);
 
-            // Defaults
-            db.defaults({})
-
-            var repository = new UserRepository(db);
+            var repository = new UserRepository(mockDb);
             var f = function(){
                 repository.update("c", {'id' : 1, 'firstname' : 1, 'lastname' : 1, 'birthday' : 1});
             };
@@ -166,12 +183,11 @@ describe("UserRepository", function() {
         });
 
         it("should throw exception delete undefined id", function(){
-            const db = low(new FileSync('dbtest.json'));
+            var mockDb = jasmine.createSpyObj('db', ['get', 'remove', 'write']);
+            mockDb.get.and.returnValue(mockDb);        
+            mockDb.remove.and.returnValue(mockDb);
 
-            // Defaults
-            db.defaults({})
-
-            var repository = new UserRepository(db);
+            var repository = new UserRepository(mockDb);
             var f = function(){
                 repository.delete();
             };

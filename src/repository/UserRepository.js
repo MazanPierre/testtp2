@@ -4,6 +4,10 @@
  * @constructor
  */
 var UserRepository = function (db) {
+    if (!db) {
+        throw 'db not defined';
+    }
+
     this.db = db;
 };
 
